@@ -4,7 +4,6 @@
 - Loom is blooming
 - Sincerest form of flattery
 - edson yanaga videos
-- Cleaning Your Code with Records, Sealed Classes, and Pattern Matching (Jose)
 - The collections sort thing
 - Pattern matching - past, present, future
 

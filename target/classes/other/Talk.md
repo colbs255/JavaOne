@@ -201,11 +201,13 @@ Exception in thread "main" java.lang.NullPointerException: Cannot read field "c"
 ## Structured Concurrency
 ## Reflection uses Method handles
 ## Record Patterns
+## Sequenced Collections
 
 # Infrastructure
 ## GraalVM
 ## CRaC
 ## Micrometer
+## Error Prone
 
 # Fun Stuff
 - Which of these are valid?
