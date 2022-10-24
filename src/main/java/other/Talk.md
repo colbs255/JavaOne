@@ -37,7 +37,7 @@ style: |
 <div class="columns"> 
 
 <div class="columns-left">
-We've all seen code like this...
+Before...
 
 ```java
 Object o = someRandomObject();
@@ -55,7 +55,7 @@ if (o instanceof String) {
 </div>
 
 <div class="columns-right">
-We can condense this:
+After...
 
 ```java
 Object o = someRandomObject();
@@ -75,7 +75,7 @@ if (o instanceof String s) {
 ## Another instanceof example
 <div class="columns">
 <div class="columns-left">
-Consider an equals method:
+Before...
 
 ```java
 public final boolean equals(Object o) {
@@ -86,7 +86,7 @@ public final boolean equals(Object o) {
 ```
 </div>
 <div class="columns-right">
-We can now write this as:
+After...
 
 ```java
 public final boolean equals(Object o) {
@@ -152,7 +152,7 @@ System.out.println(range.end);
 - You can make your own, but **all constructors must ultimately call the canonical constructor**
 ```java
 record Range(int start, int end) {
-    // Canonical constructor that uses the compact notation
+    // Canonical constructor that uses the compact syntax
     Range {
         if (end < begin) { throw new IllegalArgumentException("Begin must be less than end"); }
     }
@@ -176,6 +176,37 @@ Exception in thread "main" java.lang.NullPointerException: Cannot read field "c"
 
 ---
 ## Text Blocks
+Multi-line string **literal** that doesn't need most escape sequences
+
+Before...
+```java
+String json = "{\n\"id\": 1,\n\"qty\": 5,\n\"price\": 100.00}";
+```
+After...
+```java
+String json = """
+            {
+                "id": 1,
+                "qty": 5,
+                "price": 100
+            }
+            """
+```
+
+___
+## More on Text Blocks
+- https://docs.oracle.com/en/java/javase/15/text-blocks/index.html
+- https://openjdk.org/jeps/378
+- Closing delimiter is generally positioned to align with the content
+- The indentation is determined the furthest left component (usually end line)
+- This will go on one line
+```java
+String text = """
+                Lorem ipsum dolor sit amet, consectetur adipiscing \
+                elit, sed do eiusmod tempor incididunt ut labore \
+                et dolore magna aliqua.\
+                """;
+```
 
 ---
 ## Sealed Classes
@@ -202,6 +233,7 @@ Exception in thread "main" java.lang.NullPointerException: Cannot read field "c"
 ## Reflection uses Method handles
 ## Record Patterns
 ## Sequenced Collections
+## String Templates
 
 # Infrastructure
 ## GraalVM
