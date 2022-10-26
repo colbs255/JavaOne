@@ -129,7 +129,7 @@ Records can do this in one line:
 record Range(int start, int end) { }
 ```
 
-Usage;
+Usage:
 ```java
 var range = new Range(2, 3);
 System.out.println(range.start());
