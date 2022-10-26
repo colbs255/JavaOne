@@ -99,8 +99,6 @@ public final boolean equals(Object o) {
 
 ---
 ## Records
-- Immutable, final, transparent class
-- No extend clause but can implement an interface
 <div class="columns">
 <div class="columns-left">
 Consider a simple data class:
@@ -115,18 +113,11 @@ final class Range {
         this.end = end;
     }
 
-    int start() { return start; }
-    int end() { return end; }
-
-    public boolean equals(Object o) {
-        if (!(o instanceof Range)) return false;
-        Range other = (Range) o;
-        return other.start == start && other.end == end;
-    }
-
-    public int hashCode() { return Objects.hash(start, end); }
-
-    public String toString() { return String.format("Range[start=%d, end=%d]", start, end); }
+    public int start() { return start; }
+    public int end() { return end; }
+    public boolean equals(Object o) { /*...*/ }
+    public int hashCode() { /*...*/ }
+    public String toString() { /*...*/ }
 }
 ```
 </div>
@@ -137,7 +128,8 @@ Records can do this in one line:
 ```java
 record Range(int start, int end) { }
 ```
-Usage:
+
+Usage;
 ```java
 var range = new Range(2, 3);
 System.out.println(range.start());
@@ -146,9 +138,17 @@ System.out.println(range.end);
 </div>
 </div>
 
+___
+## Record Properties
+- Immutable
+- Transparent
+- Can't extend any class (implicitly extends record)
+- Can't be extended
+- But can implement interfaces
+
 ---
 ## Record Constructors
-- Records are automatically given `canonical constructors` that set the instance values (what we used in the previous slide)
+- Automatically given `canonical constructors`
 - You can make your own, but **all constructors must ultimately call the canonical constructor**
 ```java
 record Range(int start, int end) {
@@ -177,7 +177,6 @@ Exception in thread "main" java.lang.NullPointerException: Cannot read field "c"
 ---
 ## Text Blocks
 Multi-line string **literal** that doesn't need most escape sequences
-
 Before...
 ```java
 String json = "{\n\"id\": 1,\n\"qty\": 5,\n\"price\": 100.00}";
@@ -196,9 +195,7 @@ String json = """
 ___
 ## More on Text Blocks
 - https://docs.oracle.com/en/java/javase/15/text-blocks/index.html
-- https://openjdk.org/jeps/378
-- Closing delimiter is generally positioned to align with the content
-- The indentation is determined the furthest left component (usually end line)
+- Indentation determined by the farthest left character
 - This will go on one line
 ```java
 String text = """
@@ -210,12 +207,34 @@ String text = """
 
 ---
 ## Sealed Classes
+<style scoped>
+p {font-size: 1rem; }
+    </style>
+```java
+class Expression {
+
+} // No limits to extension
+```
+```java
+final class Expression { } // Nothing can extend
+```
+- A sealed class can only be extended by classes **permitted** to do so
+```java
+sealed class Expression {
+    permits ConstantExpression, PlusExpression, MinusExpression {
+    
+} 
+```
+
+---
+## Sealed Interfaces
 
 ---
 ## Switch Expressions
 
 ---
 ## Modules
+- Maybe don't
 
 ---
 ## Garbage Collectors
