@@ -46,6 +46,7 @@ if (o instanceof String) {
     // Cast to String
     String s = (String)o;
     // do something with String s
+// Check type
 } else if (o instanceof Number) {
     // Cast to Number
     Number n = (Number)o;
@@ -211,9 +212,7 @@ String text = """
 p {font-size: 1rem; }
     </style>
 ```java
-class Expression {
-
-} // No limits to extension
+class Expression { } // No limits to extension
 ```
 ```java
 final class Expression { } // Nothing can extend
@@ -221,29 +220,82 @@ final class Expression { } // Nothing can extend
 - A sealed class can only be extended by classes **permitted** to do so
 ```java
 sealed class Expression {
-    permits ConstantExpression, PlusExpression, MinusExpression {
+    permits Constant, Plus, Minus {
     
 } 
 ```
 
 ---
 ## Sealed Interfaces
+```java
+sealed interface Expression {
+    record Constant(int v) {}
+    record Addition(Expression a, Expression b) {}
+    record Subtraction(Expression a, Expression b) {}
+    record Multiplication(Express a, Expression b) {}
+
+    public int eval();
+}
+```
 
 ---
 ## Switch Expressions
+Before
+```java
+int numLetters;
+switch (day) {
+    case MONDAY:
+    case FRIDAY:
+    case SUNDAY:
+        numLetters = 6;
+        break;
+    case TUESDAY:
+        numLetters = 7;
+        break;
+    case THURSDAY:
+    case SATURDAY:
+        numLetters = 8;
+        break;
+    case WEDNESDAY:
+        numLetters = 9;
+        break;
+}
+```
+
+After
+```java
+// Can actually returna a value now
+int numLetters = switch (day) {
+    // Arrows means no breaks needed, they don't "fall through"
+    case MONDAY, FRIDAY, SUNDAY -> 6;
+    case TUESDAY                -> 7;
+    case THURSDAY, SATURDAY     -> 8;
+    case WEDNESDAY              -> 9;
+}
+```
+
+Switch expressions must be exhaustive
 
 ---
-## Modules
+## Modules...
 - Maybe don't
+
+___
+## Stream::toList()
 
 ---
 ## Garbage Collectors
+### G1 (Garbage First)
+- replaces CMS (Concurrent Mark Sweep)
+### ZGC (Z Garbage Collector)
+- Low latency
 ### Shenandoah
-### ZGC
-### G1
+### Comparison Graphs
 
 ---
 # Post Java 17 Features
+
+---
 ## Pattern Matching for switch
 ## Foreign Function & Memory API (Panama)
 ## Vector API
@@ -270,3 +322,4 @@ sealed class Expression {
 - bytes are represented as ints
 - Sorting/compare error
 - Regular Expressions Error
+- which garbage collector does TMS use
