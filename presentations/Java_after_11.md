@@ -15,13 +15,6 @@ style: |
 # <!--fit--> Java after 11
 
 ---
-# Overview
-1. Java 17 Features
-2. Post Java 17 Features
-3. Infrastructure Improvements
-4. Fun Stuff
-
----
 # Java 17 Features
 - Pattern matching for instanceof
 - Records
@@ -294,28 +287,10 @@ https://www.optaplanner.org/blog/2021/09/15/HowMuchFasterIsJava17.html
 - replaces CMS (Concurrent Mark Sweep)
 ### ZGC (Z Garbage Collector)
 - Low latency
-### Shenandoah
-### Comparison Graphs
 
 ---
-# Post Java 17 Features
-
----
-## Pattern Matching for switch
-## Foreign Function & Memory API (Panama)
-## Vector API
-## Virtual Threads
-## Structured Concurrency
-## Reflection uses Method handles
-## Record Patterns
-## Sequenced Collections
-## String Templates
 
 # Infrastructure
-## GraalVM
-## CRaC
-## Micrometer
-## Error Prone
 
 # Fun Stuff
 - Which of these are valid?
