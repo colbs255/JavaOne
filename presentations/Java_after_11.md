@@ -15,7 +15,7 @@ style: |
 # <!--fit--> Java after 11
 
 ---
-# Java 17 Features
+# Overview
 - Pattern matching for instanceof
 - Records
 - Sealed Classes
