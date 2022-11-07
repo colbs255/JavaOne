@@ -209,9 +209,9 @@ final class Shape { } // Nothing can extend
 sealed class Shape {
     permits Circle, Rectangle, Triangle {
 } 
-class Circle extends Expression {}
-class Rectangle extends Expression {}
-class Triangle extends Expression {}
+class Circle extends Shape {}
+class Rectangle extends Shape {}
+class Triangle extends Shape {}
 ```
 
 ---
@@ -289,12 +289,7 @@ https://www.optaplanner.org/blog/2021/09/15/HowMuchFasterIsJava17.html
 - Low latency
 
 ---
-
-# Infrastructure
-
-# Fun Stuff
-- Which of these are valid?
-    - toList(), collect(toList())
+## Fun Stuff
 - Generics were introduced in bytecode in 1.3
 - goto: is a keyword but you can't use it
 - you can name something var var (is var a restricted identifier)
@@ -302,4 +297,3 @@ https://www.optaplanner.org/blog/2021/09/15/HowMuchFasterIsJava17.html
 - bytes are represented as ints
 - Sorting/compare error
 - Regular Expressions Error
-- which garbage collector does TMS use
