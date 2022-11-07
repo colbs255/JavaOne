@@ -28,7 +28,6 @@ style: |
 - Sealed Classes
 - Switch Expressions
 - Text Blocks
-- Modules
 - Better NullPointerExceptions
 - Garbage Collection Improvements
 
@@ -165,39 +164,34 @@ record Range(int start, int end) {
 
 ---
 ## Better NullPointerExceptions
-- An NPE might for this code `a.b.c.i = 99` looks like this:
+- Consider a NullPointerException for this line `a.b.c.i = 99;`
 ```text
 Exception in thread "main" java.lang.NullPointerException at Prog.main(Prog.java:5)
 ```
 - Which variable was null? a, b, c, or i? The message doesn't tell you
-- The error message in new java looks like this:
+- NullPointerExceptions now:
 ```text
 Exception in thread "main" java.lang.NullPointerException: Cannot read field "c" because "a.b" is null at Prog.main(Prog.java:5)
 ```
 
 ---
 ## Text Blocks
-Multi-line string **literal** that doesn't need most escape sequences
-Before...
+Multi-line string **literal** that doesn't need escape sequences (usually)
 ```java
-String json = "{\n\"id\": 1,\n\"qty\": 5,\n\"price\": 100.00}";
-```
-After...
-```java
-String json = """
+String grossJson = "{\n\"id\": 1,\n\"qty\": 5,\n\"price\": 100.00}";
+String prettyJson = """
             {
                 "id": 1,
                 "qty": 5,
                 "price": 100
             }
-            """
+            """;
 ```
 
 ___
 ## More on Text Blocks
-- https://docs.oracle.com/en/java/javase/15/text-blocks/index.html
 - Indentation determined by the farthest left character
-- This will go on one line
+- Single line blocks:
 ```java
 String text = """
                 Lorem ipsum dolor sit amet, consectetur adipiscing \
@@ -212,37 +206,29 @@ String text = """
 p {font-size: 1rem; }
     </style>
 ```java
-class Expression { } // No limits to extension
+class Shape { } // No limits to extension
 ```
 ```java
-final class Expression { } // Nothing can extend
+final class Shape { } // Nothing can extend
 ```
 - A sealed class can only be extended by classes **permitted** to do so
 ```java
-sealed class Expression {
-    permits Constant, Plus, Minus {
-    
+sealed class Shape {
+    permits Circle, Rectangle, Triangle {
 } 
-```
-
----
-## Sealed Interfaces
-```java
-sealed interface Expression {
-    record Constant(int v) {}
-    record Addition(Expression a, Expression b) {}
-    record Subtraction(Expression a, Expression b) {}
-    record Multiplication(Express a, Expression b) {}
-
-    public int eval();
-}
+class Circle extends Expression {}
+class Rectangle extends Expression {}
+class Triangle extends Expression {}
 ```
 
 ---
 ## Switch Expressions
-Before
+<div class="columns">
+<div class="columns-left">
+Before...
+
 ```java
-int numLetters;
+int numLetters; // eww
 switch (day) {
     case MONDAY:
     case FRIDAY:
@@ -252,17 +238,13 @@ switch (day) {
     case TUESDAY:
         numLetters = 7;
         break;
-    case THURSDAY:
-    case SATURDAY:
-        numLetters = 8;
-        break;
-    case WEDNESDAY:
-        numLetters = 9;
-        break;
+    // Thursday, Saturday, Wednesday...
 }
 ```
+</div>
+<div class="columns-right">
+After...
 
-After
 ```java
 // Can actually returna a value now
 int numLetters = switch (day) {
@@ -273,18 +255,41 @@ int numLetters = switch (day) {
     case WEDNESDAY              -> 9;
 }
 ```
+- Switch expressions must be exhaustive, but don't require a 'default'
+</div>
+</div>
 
-Switch expressions must be exhaustive
-
----
-## Modules...
-- Maybe don't
 
 ___
-## Stream::toList()
+## Stream::toList
+<div class="columns">
+<div class="columns-left">
+Before...
+
+```java
+var nums = IntStream.range(0, 10)
+                     .boxed()
+                     .collect(Collectors.toList());
+```
+</div>
+<div class="columns-right">
+After...
+
+```java
+var nums = IntStream.range(0, 10)
+                    .boxed()
+                    .toList();
+```
+</div>
+</div>
+
+___
+## Stream::mapMulti
 
 ---
 ## Garbage Collectors
+https://blogs.oracle.com/javamagazine/post/java-garbage-collectors-evolution
+https://www.optaplanner.org/blog/2021/09/15/HowMuchFasterIsJava17.html
 ### G1 (Garbage First)
 - replaces CMS (Concurrent Mark Sweep)
 ### ZGC (Z Garbage Collector)
