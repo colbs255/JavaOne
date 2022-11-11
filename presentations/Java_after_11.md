@@ -319,11 +319,12 @@ int static = 1;     // No, java keyword
 
 int var = 1;        // Yes!
 
+var var = "var";    // Yes!
+
 int void = 1;       // No, java keyword
 
 int const = 1;      // No, another reserved java keyword
 ```
-
 
 ___
 ## Fun Stuff
