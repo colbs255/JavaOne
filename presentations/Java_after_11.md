@@ -16,15 +16,54 @@ style: |
 
 ---
 # Overview
-- Pattern matching for instanceof
-- Records
-- Sealed Classes
-- Switch Expressions
 - Text Blocks
 - Better NullPointerExceptions
+- Pattern matching for instanceof
+- Switch Expressions
+- Sealed Classes
+- Records
 - Garbage Collection Improvements
+- And more!
 
 ---
+## Text Blocks
+Multi-line string **literal** that generally doesn't need escape sequences
+```java
+String grossJson = "{\n\"id\": 1,\n\"qty\": 5,\n\"price\": 100.00}";
+String prettyJson = """
+            {
+                "id": 1,
+                "qty": 5,
+                "price": 100
+            }
+            """;
+```
+
+___
+## More on Text Blocks
+- Indentation determined by farthest left character & closing quotes
+- Single line blocks are supported with `\`:
+```java
+String text = """
+              Lorem ipsum dolor sit amet, consectetur adipiscing \
+              elit, sed do eiusmod tempor incididunt ut labore \
+              et dolore magna aliqua.
+              """;
+```
+
+---
+## Better NullPointerExceptions
+- Consider a NullPointerException for this line `a.b.c.i = 99;`
+```text
+Exception in thread "main" java.lang.NullPointerException at Prog.main(Prog.java:5)
+```
+- Which variable was null? a, b, c, or i? The message doesn't tell you
+- NullPointerExceptions now:
+```text
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "c" because "a.b" is null at Prog.main(Prog.java:5)
+```
+
+___
 ## Pattern Matching for instanceof
 <div class="columns"> 
 
@@ -87,6 +126,65 @@ public final boolean equals(Object o) {
         && x == other.x && y == other.y;
 }
 ```
+</div>
+</div>
+
+---
+## Sealed Classes
+<style scoped>
+p {font-size: 1rem; }
+    </style>
+```java
+class Shape { } // No limits to extension
+```
+```java
+final class Shape { } // Nothing can extend
+```
+- A sealed class can only be extended by classes **permitted** to do so
+```java
+sealed class Shape {
+    permits Circle, Rectangle, Triangle {
+} 
+class Circle extends Shape {}
+class Rectangle extends Shape {}
+class Triangle extends Shape {}
+```
+
+---
+## Switch Expressions
+<div class="columns">
+<div class="columns-left">
+Before...
+
+```java
+int numLetters; // eww
+switch (day) {
+    case MONDAY:
+    case FRIDAY:
+    case SUNDAY:
+        numLetters = 6;
+        break;
+    case TUESDAY:
+        numLetters = 7;
+        break;
+    // Thursday, Saturday, Wednesday...
+}
+```
+</div>
+<div class="columns-right">
+After...
+
+```java
+// Can actually returna a value now
+int numLetters = switch (day) {
+    // Arrows means no breaks needed, they don't "fall through"
+    case MONDAY, FRIDAY, SUNDAY -> 6;
+    case TUESDAY                -> 7;
+    case THURSDAY, SATURDAY     -> 8;
+    case WEDNESDAY              -> 9;
+}
+```
+- Switch expressions must be exhaustive, but don't require a 'default'
 </div>
 </div>
 
@@ -156,102 +254,13 @@ record Range(int start, int end) {
 ```
 
 ---
-## Better NullPointerExceptions
-- Consider a NullPointerException for this line `a.b.c.i = 99;`
-```text
-Exception in thread "main" java.lang.NullPointerException at Prog.main(Prog.java:5)
-```
-- Which variable was null? a, b, c, or i? The message doesn't tell you
-- NullPointerExceptions now:
-```text
-Exception in thread "main" java.lang.NullPointerException: Cannot read field "c" because "a.b" is null at Prog.main(Prog.java:5)
-```
-
----
-## Text Blocks
-Multi-line string **literal** that doesn't need escape sequences (usually)
-```java
-String grossJson = "{\n\"id\": 1,\n\"qty\": 5,\n\"price\": 100.00}";
-String prettyJson = """
-            {
-                "id": 1,
-                "qty": 5,
-                "price": 100
-            }
-            """;
-```
-
-___
-## More on Text Blocks
-- Indentation determined by the farthest left character
-- Single line blocks:
-```java
-String text = """
-                Lorem ipsum dolor sit amet, consectetur adipiscing \
-                elit, sed do eiusmod tempor incididunt ut labore \
-                et dolore magna aliqua.\
-                """;
-```
-
----
-## Sealed Classes
-<style scoped>
-p {font-size: 1rem; }
-    </style>
-```java
-class Shape { } // No limits to extension
-```
-```java
-final class Shape { } // Nothing can extend
-```
-- A sealed class can only be extended by classes **permitted** to do so
-```java
-sealed class Shape {
-    permits Circle, Rectangle, Triangle {
-} 
-class Circle extends Shape {}
-class Rectangle extends Shape {}
-class Triangle extends Shape {}
-```
-
----
-## Switch Expressions
-<div class="columns">
-<div class="columns-left">
-Before...
-
-```java
-int numLetters; // eww
-switch (day) {
-    case MONDAY:
-    case FRIDAY:
-    case SUNDAY:
-        numLetters = 6;
-        break;
-    case TUESDAY:
-        numLetters = 7;
-        break;
-    // Thursday, Saturday, Wednesday...
-}
-```
-</div>
-<div class="columns-right">
-After...
-
-```java
-// Can actually returna a value now
-int numLetters = switch (day) {
-    // Arrows means no breaks needed, they don't "fall through"
-    case MONDAY, FRIDAY, SUNDAY -> 6;
-    case TUESDAY                -> 7;
-    case THURSDAY, SATURDAY     -> 8;
-    case WEDNESDAY              -> 9;
-}
-```
-- Switch expressions must be exhaustive, but don't require a 'default'
-</div>
-</div>
-
+## Garbage Collectors
+https://blogs.oracle.com/javamagazine/post/java-garbage-collectors-evolution
+https://www.optaplanner.org/blog/2021/09/15/HowMuchFasterIsJava17.html
+### G1 (Garbage First)
+- replaces CMS (Concurrent Mark Sweep)
+### ZGC (Z Garbage Collector)
+- Low latency
 
 ___
 ## Stream::toList
@@ -279,21 +288,49 @@ var nums = IntStream.range(0, 10)
 ___
 ## Stream::mapMulti
 
----
-## Garbage Collectors
-https://blogs.oracle.com/javamagazine/post/java-garbage-collectors-evolution
-https://www.optaplanner.org/blog/2021/09/15/HowMuchFasterIsJava17.html
-### G1 (Garbage First)
-- replaces CMS (Concurrent Mark Sweep)
-### ZGC (Z Garbage Collector)
-- Low latency
+___
+## Which of the following compile?
+```java
+int x = 1;
 
----
+int class = 1;
+
+int goto = 1;
+
+int static = 1;
+
+int var = 1;
+
+int void = 1;
+
+int const = 1;
+```
+
+___
+## Which of the following compile? (Solution)
+```java
+int x = 1;          // Yes...
+
+int class = 1;      // No, java keyword
+
+int goto = 1;       // No, java keyword that is not actually used (reserved)
+
+int static = 1;     // No, java keyword
+
+int var = 1;        // Yes!
+
+int void = 1;       // No, java keyword
+
+int const = 1;      // No, another reserved java keyword
+```
+
+
+___
 ## Fun Stuff
-- Generics were introduced in bytecode in 1.3
-- goto: is a keyword but you can't use it
-- you can name something var var (is var a restricted identifier)
+- Sorting/compare error
 - enums have limits to how many
 - bytes are represented as ints
-- Sorting/compare error
 - Regular Expressions Error
+
+## Don't include...
+- Generics were introduced in bytecode in 1.3
