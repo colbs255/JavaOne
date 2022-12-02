@@ -2,7 +2,8 @@
 marp: true
 title: Java after 11
 theme: uncover
-backgroundColor: #fff
+# Dark mode
+# class: invert
 style: |
     h1,h2 {
         color: #00A2FF
