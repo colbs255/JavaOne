@@ -163,7 +163,7 @@ int numLetters = switch (day) {
 }
 ```
 - Expression returns a value
-- Must be exhaustive, but don't require a 'default'
+- Must be exhaustive, but 'default' is not required
 
 ---
 # Records
