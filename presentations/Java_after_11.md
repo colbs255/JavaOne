@@ -39,8 +39,8 @@ String prettyJson = """
             """;
 ```
 
-___
-## More on Text Blocks
+---
+## Text Block Rules
 - Indentation determined by farthest left character & closing quotes
 - Single line blocks are supported with `\`:
 ```java
@@ -63,13 +63,11 @@ Exception in thread "main" java.lang.NullPointerException at Prog.main(Prog.java
 Exception in thread "main" java.lang.NullPointerException: Cannot read field "c" because "a.b" is null at Prog.main(Prog.java:5)
 ```
 
-___
+---
 ## Pattern Matching for instanceof
-<div class="columns"> 
 
-<div class="columns-left">
+---
 Before...
-
 ```java
 Object o = someRandomObject();
 // Check type
@@ -84,11 +82,9 @@ if (o instanceof String) {
     // do something with Number n
 }
 ```
-</div>
 
-<div class="columns-right">
+---
 After...
-
 ```java
 Object o = someRandomObject();
 // Check type and cast to String
@@ -99,16 +95,12 @@ if (o instanceof String s) {
     // do something with Number n
 }
 ```
-</div>
-
-</div>
 
 ---
 ## Another instanceof example
-<div class="columns">
-<div class="columns-left">
-Before...
 
+---
+Before...
 ```java
 public final boolean equals(Object o) {
     if (!(o instanceof Point)) return false;
@@ -116,18 +108,15 @@ public final boolean equals(Object o) {
     return x == other.x && y == other.y;
 }
 ```
-</div>
-<div class="columns-right">
-After...
 
+---
+After...
 ```java
 public final boolean equals(Object o) {
     return (o instanceof Point other)
         && x == other.x && y == other.y;
 }
 ```
-</div>
-</div>
 
 ---
 ## Sealed Classes
@@ -152,10 +141,9 @@ class Triangle extends Shape {}
 
 ---
 ## Switch Expressions
-<div class="columns">
-<div class="columns-left">
-Before...
 
+---
+Before...
 ```java
 int numLetters; // eww
 switch (day) {
@@ -170,10 +158,9 @@ switch (day) {
     // Thursday, Saturday, Wednesday...
 }
 ```
-</div>
-<div class="columns-right">
-After...
 
+---
+After...
 ```java
 // Can actually returna a value now
 int numLetters = switch (day) {
@@ -185,13 +172,9 @@ int numLetters = switch (day) {
 }
 ```
 - Switch expressions must be exhaustive, but don't require a 'default'
-</div>
-</div>
 
 ---
 ## Records
-<div class="columns">
-<div class="columns-left">
 Consider a simple data class:
 
 ```java
@@ -211,9 +194,6 @@ final class Range {
     public String toString() { /*...*/ }
 }
 ```
-</div>
-
-<div class="columns-right">
 Records can do this in one line:
 
 ```java
@@ -226,10 +206,8 @@ var range = new Range(2, 3);
 System.out.println(range.start());
 System.out.println(range.end);
 ```
-</div>
-</div>
 
-___
+---
 ## Record Properties
 - Immutable
 - Transparent
@@ -262,33 +240,26 @@ https://www.optaplanner.org/blog/2021/09/15/HowMuchFasterIsJava17.html
 ### ZGC (Z Garbage Collector)
 - Low latency
 
-___
+---
 ## Stream::toList
-<div class="columns">
-<div class="columns-left">
 Before...
-
 ```java
 var nums = IntStream.range(0, 10)
                      .boxed()
                      .collect(Collectors.toList());
 ```
-</div>
-<div class="columns-right">
-After...
 
+After...
 ```java
 var nums = IntStream.range(0, 10)
                     .boxed()
                     .toList();
 ```
-</div>
-</div>
 
-___
+---
 ## Stream::mapMulti
 
-___
+---
 ## Which of the following compile?
 ```java
 int x = 1;
@@ -306,7 +277,7 @@ int void = 1;
 int const = 1;
 ```
 
-___
+---
 ## Which of the following compile? (Solution)
 ```java
 int x = 1;          // Yes...
@@ -326,7 +297,7 @@ int void = 1;       // No, java keyword
 int const = 1;      // No, another reserved java keyword
 ```
 
-___
+---
 ## Fun Stuff
 - Sorting/compare error
 - enums have limits to how many
