@@ -11,6 +11,7 @@ style: |
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
   }
+
 ---
 # <!--fit--> Java after 11
 
@@ -26,7 +27,7 @@ style: |
 - And more!
 
 ---
-## Text Blocks
+# Text Blocks
 Multi-line string **literal** that generally doesn't need escape sequences
 ```java
 String grossJson = "{\n\"id\": 1,\n\"qty\": 5,\n\"price\": 100.00}";
@@ -40,7 +41,6 @@ String prettyJson = """
 ```
 
 ---
-## Text Block Rules
 - Indentation determined by farthest left character & closing quotes
 - Single line blocks are supported with `\`:
 ```java
@@ -52,7 +52,7 @@ String text = """
 ```
 
 ---
-## Better NullPointerExceptions
+# Better NullPointerExceptions
 - Consider a NullPointerException for this line `a.b.c.i = 99;`
 ```text
 Exception in thread "main" java.lang.NullPointerException at Prog.main(Prog.java:5)
@@ -64,7 +64,7 @@ Exception in thread "main" java.lang.NullPointerException: Cannot read field "c"
 ```
 
 ---
-## Pattern Matching for instanceof
+# Pattern Matching for instanceof
 
 ---
 Before...
@@ -97,9 +97,6 @@ if (o instanceof String s) {
 ```
 
 ---
-## Another instanceof example
-
----
 Before...
 ```java
 public final boolean equals(Object o) {
@@ -119,7 +116,7 @@ public final boolean equals(Object o) {
 ```
 
 ---
-## Sealed Classes
+# Sealed Classes
 <style scoped>
 p {font-size: 1rem; }
     </style>
@@ -140,7 +137,7 @@ class Triangle extends Shape {}
 ```
 
 ---
-## Switch Expressions
+# Switch Expressions
 
 ---
 Before...
@@ -174,9 +171,10 @@ int numLetters = switch (day) {
 - Switch expressions must be exhaustive, but don't require a 'default'
 
 ---
-## Records
-Consider a simple data class:
+# Records
 
+---
+Before...
 ```java
 final class Range {
     private final int start;
@@ -194,8 +192,9 @@ final class Range {
     public String toString() { /*...*/ }
 }
 ```
-Records can do this in one line:
 
+---
+After...
 ```java
 record Range(int start, int end) { }
 ```
@@ -232,16 +231,16 @@ record Range(int start, int end) {
 ```
 
 ---
-## Garbage Collectors
+# Garbage Collectors
 https://blogs.oracle.com/javamagazine/post/java-garbage-collectors-evolution
 https://www.optaplanner.org/blog/2021/09/15/HowMuchFasterIsJava17.html
-### G1 (Garbage First)
+## G1 (Garbage First)
 - replaces CMS (Concurrent Mark Sweep)
-### ZGC (Z Garbage Collector)
+## ZGC (Z Garbage Collector)
 - Low latency
 
 ---
-## Stream::toList
+# Stream::toList
 Before...
 ```java
 var nums = IntStream.range(0, 10)
@@ -257,10 +256,10 @@ var nums = IntStream.range(0, 10)
 ```
 
 ---
-## Stream::mapMulti
+# Stream::mapMulti
 
 ---
-## Which of the following compile?
+# Which of the following compile?
 ```java
 int x = 1;
 
@@ -278,7 +277,7 @@ int const = 1;
 ```
 
 ---
-## Which of the following compile? (Solution)
+# Which of the following compile? (Solution)
 ```java
 int x = 1;          // Yes...
 
@@ -298,11 +297,14 @@ int const = 1;      // No, another reserved java keyword
 ```
 
 ---
-## Fun Stuff
+# Fun Stuff
 - Sorting/compare error
 - enums have limits to how many
 - bytes are represented as ints
 - Regular Expressions Error
 
-## Don't include...
+# Don't include...
 - Generics were introduced in bytecode in 1.3
+
+# TODO
+center images
