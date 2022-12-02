@@ -1,17 +1,12 @@
 ---
 marp: true
-theme: gaia
-_class: lead
-paginate: true
+title: Java after 11
+theme: uncover
 backgroundColor: #fff
-backgroundImage: url('https://marp.app/assets/hero-background.svg')
 style: |
-  .columns {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-  }
-
+    h1,h2 {
+        color: #00A2FF
+    }
 ---
 # <!--fit--> Java after 11
 
@@ -53,14 +48,17 @@ String text = """
 
 ---
 # Better NullPointerExceptions
-- Consider a NullPointerException for this line `a.b.c.i = 99;`
+Code
+```java
+a.b.c.i = 99; // Throws a NullPointerException
+```
+Before...
 ```text
 Exception in thread "main" java.lang.NullPointerException at Prog.main(Prog.java:5)
 ```
-- Which variable was null? a, b, c, or i? The message doesn't tell you
-- NullPointerExceptions now:
+After...
 ```text
-Exception in thread "main" java.lang.NullPointerException: Cannot read field "c" because "a.b" is null at Prog.main(Prog.java:5)
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "c" because "a.b" is null ...
 ```
 
 ---
@@ -106,7 +104,6 @@ public final boolean equals(Object o) {
 }
 ```
 
----
 After...
 ```java
 public final boolean equals(Object o) {
@@ -117,9 +114,6 @@ public final boolean equals(Object o) {
 
 ---
 # Sealed Classes
-<style scoped>
-p {font-size: 1rem; }
-    </style>
 ```java
 class Shape { } // No limits to extension
 ```
@@ -159,7 +153,6 @@ switch (day) {
 ---
 After...
 ```java
-// Can actually returna a value now
 int numLetters = switch (day) {
     // Arrows means no breaks needed, they don't "fall through"
     case MONDAY, FRIDAY, SUNDAY -> 6;
@@ -168,7 +161,8 @@ int numLetters = switch (day) {
     case WEDNESDAY              -> 9;
 }
 ```
-- Switch expressions must be exhaustive, but don't require a 'default'
+- Expression returns a value
+- Must be exhaustive, but don't require a 'default'
 
 ---
 # Records
@@ -207,7 +201,7 @@ System.out.println(range.end);
 ```
 
 ---
-## Record Properties
+# Record Properties
 - Immutable
 - Transparent
 - Can't extend any class (implicitly extends record)
@@ -215,7 +209,7 @@ System.out.println(range.end);
 - But can implement interfaces
 
 ---
-## Record Constructors
+# Record Constructors
 - Automatically given `canonical constructors`
 - You can make your own, but **all constructors must ultimately call the canonical constructor**
 ```java
@@ -259,7 +253,7 @@ var nums = IntStream.range(0, 10)
 # Stream::mapMulti
 
 ---
-# Which of the following compile?
+# Do these compile?
 ```java
 int x = 1;
 
@@ -277,7 +271,7 @@ int const = 1;
 ```
 
 ---
-# Which of the following compile? (Solution)
+# Solution
 ```java
 int x = 1;          // Yes...
 
