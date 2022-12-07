@@ -227,20 +227,25 @@ record Range(int start, int end) {
 
 ---
 # Garbage Collectors
-https://blogs.oracle.com/javamagazine/post/java-garbage-collectors-evolution
-https://www.optaplanner.org/blog/2021/09/15/HowMuchFasterIsJava17.html
 ## G1 (Garbage First)
 - replaces CMS (Concurrent Mark Sweep)
 ## ZGC (Z Garbage Collector)
 - Low latency
+https://blogs.oracle.com/javamagazine/post/java-garbage-collectors-evolution
+https://www.optaplanner.org/blog/2021/09/15/HowMuchFasterIsJava17.html
 
 ---
 # Stream::toList
+<!--
+    Simply creating a list of ints
+    The new toList method makes this more fluid
+    I know I know.. it is just a few characters... but it is hard to go back once you have used it
+-->
 Before...
 ```java
 var nums = IntStream.range(0, 10)
-                     .boxed()
-                     .collect(Collectors.toList());
+                    .boxed()
+                    .collect(Collectors.toList());
 ```
 
 After...
@@ -249,9 +254,6 @@ var nums = IntStream.range(0, 10)
                     .boxed()
                     .toList();
 ```
-
----
-# Stream::mapMulti
 
 ---
 # Do these compile?
@@ -297,9 +299,7 @@ int const = 1;      // No, another reserved java keyword
 - enums have limits to how many
 - bytes are represented as ints
 - Regular Expressions Error
-
-# Don't include...
-- Generics were introduced in bytecode in 1.3
+- Stream::mapMulti
 
 # TODO
-center images
+- garbage collectors
