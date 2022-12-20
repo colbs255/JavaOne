@@ -226,20 +226,29 @@ record Range(int start, int end) {
 ```
 
 ---
+# Garbage Collector Tradeoffs
+- Throughput - how much time is spent doing actual application work vs gc work?
+- Latency - how responsive is it? How does the gc affect any single app operation?
+- Footprint - what additional resources does the gc require?
+
+---
 # Garbage Collectors
-## G1 (Garbage First)
-- replaces CMS (Concurrent Mark Sweep)
-## ZGC (Z Garbage Collector)
-- Low latency
-https://blogs.oracle.com/javamagazine/post/java-garbage-collectors-evolution
-https://www.optaplanner.org/blog/2021/09/15/HowMuchFasterIsJava17.html
+- Serial
+- Parallel
+- G1 (Garbage First)
+    - replaces CMS (Concurrent Mark Sweep)
+- ZGC (Z Garbage collector)
+    - Low latency
+https://kstefanj.github.io/2021/11/24/gc-progress-8-17.html
+https://www.javacodegeeks.com/2021/09/how-much-faster-is-java-17.html
+https://developers.redhat.com/articles/2021/11/02/how-choose-best-java-garbage-collector#
 
 ---
 # Stream::toList
 <!--
     Simply creating a list of ints
     The new toList method makes this more fluid
-    I know I know.. it is just a few characters... but it is hard to go back once you have used it
+    I know, I know.. it is just a few characters... but it is hard to go back once you have used it
 -->
 Before...
 ```java
