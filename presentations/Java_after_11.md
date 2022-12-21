@@ -303,8 +303,13 @@ int const = 1;      // No, another reserved java keyword
 ```
 
 ---
+# Comparator Trouble
+- TODO: comparison method violates its general contract
+- https://www.youtube.com/watch?v=Enwbh6wpnYs
+
+---
 # Fun Stuff
 - Sorting/compare error
-- enums have limits to how many
 - bytes are represented as ints
 - Regular Expressions Error
+- Constant pool: 65,535
