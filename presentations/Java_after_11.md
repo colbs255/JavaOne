@@ -233,12 +233,12 @@ record Range(int start, int end) {
 
 ---
 # Garbage Collectors
-- Serial
-- Parallel
-- G1 (Garbage First)
-    - replaces CMS (Concurrent Mark Sweep)
-- ZGC (Z Garbage collector)
+- Serial: optimized for footprint
+- Parallel: optimzed for throughput
+- G1 (Garbage First): good balance of latency and throughput
+- ZGC (Z Garbage collector): optimzed for latency
     - Low latency
+- Shenandoah: optimzed for latency on large heaps
 https://kstefanj.github.io/2021/11/24/gc-progress-8-17.html
 https://www.javacodegeeks.com/2021/09/how-much-faster-is-java-17.html
 https://developers.redhat.com/articles/2021/11/02/how-choose-best-java-garbage-collector#
@@ -308,7 +308,3 @@ int const = 1;      // No, another reserved java keyword
 - enums have limits to how many
 - bytes are represented as ints
 - Regular Expressions Error
-- Stream::mapMulti
-
-# TODO
-- garbage collectors
