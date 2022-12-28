@@ -24,7 +24,7 @@ style: |
 
 ---
 # Text Blocks
-Multi-line string **literal** that generally doesn't need escape sequences
+- Multi-line string **literal** that generally doesn't need escape sequences
 ```java
 String grossJson = "{\n\"id\": 1,\n\"qty\": 5,\n\"price\": 100.00}";
 String prettyJson = """
@@ -130,6 +130,7 @@ class Circle extends Shape {}
 class Rectangle extends Shape {}
 class Triangle extends Shape {}
 ```
+<!-- allows you to write an exhaustive switch statement -->
 
 ---
 # Switch Expressions
@@ -217,7 +218,7 @@ System.out.println(range.end);
 record Range(int start, int end) {
     // Canonical constructor that uses the compact syntax
     Range {
-        if (end < begin) { throw new IllegalArgumentException("Begin must be less than end"); }
+        if (end < start) { throw new IllegalArgumentException("start must be less than end"); }
     }
 
     // Has to use the canonical constructor
@@ -226,22 +227,33 @@ record Range(int start, int end) {
 ```
 
 ---
-# Garbage Collector Tradeoffs
-- Throughput - how much time is spent doing actual application work vs gc work?
-- Latency - how responsive is it? How does the gc affect any single app operation?
-- Footprint - what additional resources does the gc require?
+# Garbage Collectors
 
 ---
-# Garbage Collectors
-- Serial: optimized for footprint
+# Tradeoffs
+- Throughput: how much time is spent doing actual application work vs gc work?
+- Latency: how responsive is it? How does the gc affect any single app operation?
+- Footprint: what additional resources does the gc require?
+
+---
+# Java Collectors
+- Serial: optimized for footprint, simple, single threaded
 - Parallel: optimzed for throughput
-- G1 (Garbage First): good balance of latency and throughput
+- G1 (Garbage First): balance of latency and throughput
 - ZGC (Z Garbage collector): optimzed for latency
     - Low latency
-- Shenandoah: optimzed for latency on large heaps
-https://kstefanj.github.io/2021/11/24/gc-progress-8-17.html
-https://www.javacodegeeks.com/2021/09/how-much-faster-is-java-17.html
-https://developers.redhat.com/articles/2021/11/02/how-choose-best-java-garbage-collector#
+
+---
+# Benchmarks
+|  |  |
+|------------|---------|
+| ![w:540](https://kstefanj.github.io/assets/posts/gc-8-17/throughput.png)| ![w:540](https://kstefanj.github.io/assets/posts/gc-8-17/latency.png)|
+
+
+- [Stefan Johansson - GC progress from JDK 8 to JDK 17](https://kstefanj.github.io/2021/11/24/gc-progress-8-17.html)
+
+---
+# Fun Stuff
 
 ---
 # Stream::toList
@@ -303,13 +315,16 @@ int const = 1;      // No, another reserved java keyword
 ```
 
 ---
-# Comparator Trouble
-- TODO: comparison method violates its general contract
+# Comparison Method Violates its General Contract!
+- Why? Your comparator has a bug. Sort call migth throw this exception if it notices the failure
+- Comparator rules
+    - must impose a total ordering of values (ordering relation valid for all pairs)
+- Error 1: int overflow with subtraction
+- Error 2: autounboxing (with equals), avoid equals and not equals in value comparison
+- Just use Integer::compare
+- Even if you do it correctly, it won't work with floating point numbers due to NaN (not a number)
+- null first should not be wrapped around the comparator
+    - have to put nulls first inside
+- don't write your own comparator, combine things together
 - https://www.youtube.com/watch?v=Enwbh6wpnYs
 
----
-# Fun Stuff
-- Sorting/compare error
-- bytes are represented as ints
-- Regular Expressions Error
-- Constant pool: 65,535
