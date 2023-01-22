@@ -351,8 +351,9 @@ int const = 1;      // No, another reserved java keyword
 
 ---
 # Conclusion
-Java 17...
-- Makes it easier to debug programs with more precise null pointer exceptions
-- Improves overall performance with it's enhanced garbage collectors
-- Makes writing java more convenient with text blocks, pattern matching, switch expressions, and records
-- Sealed classes
+- Java 17...
+    - Improves debugging with more precise null pointer exceptions
+    - Improves overall performance with it's enhanced garbage collectors
+    - Makes writing java more convenient with text blocks, Stream::toList, pattern matching, switch expressions, and records
+    - Sealed classes
+    - Opens the door to a new style of programming: Data Oriented Programming that can coexist with Object Oriented Programming
