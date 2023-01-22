@@ -10,6 +10,7 @@ style: |
     }
 ---
 # <!--fit--> Java after 11
+Colby "Colbs" Chance
 
 ---
 # What's new?
@@ -40,7 +41,7 @@ Exception in thread "main" java.lang.NullPointerException: Cannot read field "c"
 # Garbage Collection (GC)
 
 ---
-# GC Tradeoffs
+# GC Trade-offs
 - Throughput
     - How much time is spent doing actual application work vs GC work?
 - Latency
@@ -51,9 +52,9 @@ Exception in thread "main" java.lang.NullPointerException: Cannot read field "c"
 ---
 # Java GCs
 - Serial: optimized for footprint, simple, single threaded
-- Parallel: optimzed for throughput
+- Parallel: optimized for throughput
 - G1 (Garbage First): balance of latency and throughput
-- ZGC (Z Garbage collector): optimzed for latency
+- ZGC (Z Garbage collector): optimized for latency
     - Low latency
 
 ---
@@ -341,7 +342,7 @@ int const = 1;      // No, another reserved java keyword
 - Comparator rules
     - must impose a total ordering of values (ordering relation valid for all pairs)
 - Error 1: int overflow with subtraction
-- Error 2: autounboxing (with equals), avoid equals and not equals in value comparison
+- Error 2: auto-unboxing (with equals), avoid equals and not equals in value comparison
 - Just use Integer::compare
 - Even if you do it correctly, it won't work with floating point numbers due to NaN (not a number)
 - null first should not be wrapped around the comparator
@@ -355,5 +356,5 @@ int const = 1;      // No, another reserved java keyword
     - Improves debugging with more precise null pointer exceptions
     - Improves overall performance with it's enhanced garbage collectors
     - Makes writing java more convenient with text blocks, Stream::toList, pattern matching, switch expressions, and records
-    - Sealed classes
+    - Gives you more control over inheritance with Sealed classes
     - Opens the door to a new style of programming: Data Oriented Programming that can coexist with Object Oriented Programming
