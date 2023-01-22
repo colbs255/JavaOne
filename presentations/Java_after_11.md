@@ -12,19 +12,63 @@ style: |
 # <!--fit--> Java after 11
 
 ---
-# Overview
-- Text Blocks
+# What's new?
 - Better NullPointerExceptions
+- Garbage Collection Improvements
+- Text Blocks
 - Pattern matching for instanceof
 - Switch Expressions
-- Sealed Classes
 - Records
-- Garbage Collection Improvements
+- Sealed Classes
 - And more!
 
 ---
+# Better NullPointerExceptions
+```java
+a.b.c.i = 99; // Throws a NullPointerException
+```
+Before...
+```text
+Exception in thread "main" java.lang.NullPointerException at Prog.main(Prog.java:5)
+```
+After...
+```text
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "c" because "a.b" is null ...
+```
+
+---
+# Garbage Collection (GC)
+
+---
+# GC Tradeoffs
+- Throughput
+    - How much time is spent doing actual application work vs GC work?
+- Latency
+    - How responsive is it? How does GC affect any single app operation?
+- Footprint
+    - What additional resources does GC require?
+
+---
+# Java GCs
+- Serial: optimized for footprint, simple, single threaded
+- Parallel: optimzed for throughput
+- G1 (Garbage First): balance of latency and throughput
+- ZGC (Z Garbage collector): optimzed for latency
+    - Low latency
+
+---
+# GC Benchmarks
+|  |  |
+|------------|---------|
+| ![w:540](https://kstefanj.github.io/assets/posts/gc-8-17/throughput.png)| ![w:540](https://kstefanj.github.io/assets/posts/gc-8-17/latency.png)|
+
+
+- [Stefan Johansson - GC progress from JDK 8 to JDK 17](https://kstefanj.github.io/2021/11/24/gc-progress-8-17.html)
+
+---
 # Text Blocks
-- Multi-line string **literal** that generally doesn't need escape sequences
+- Multi-line string **literal**
+- Doesn't need escape sequences (generally)
 ```java
 String grossJson = "{\n\"id\": 1,\n\"qty\": 5,\n\"price\": 100.00}";
 String prettyJson = """
@@ -48,37 +92,18 @@ String text = """
 ```
 
 ---
-# Better NullPointerExceptions
-Code
-```java
-a.b.c.i = 99; // Throws a NullPointerException
-```
-Before...
-```text
-Exception in thread "main" java.lang.NullPointerException at Prog.main(Prog.java:5)
-```
-After...
-```text
-Exception in thread "main" java.lang.NullPointerException: Cannot read field "c" because "a.b" is null ...
-```
-
----
 # Pattern Matching for instanceof
 
 ---
 Before...
 ```java
 Object o = someRandomObject();
-// Check type
 if (o instanceof String) {
-    // Cast to String
     String s = (String)o;
-    // do something with String s
-// Check type
+    // do something with String s...
 } else if (o instanceof Number) {
-    // Cast to Number
     Number n = (Number)o;
-    // do something with Number n
+    // do something with Number n...
 }
 ```
 
@@ -86,12 +111,10 @@ if (o instanceof String) {
 After...
 ```java
 Object o = someRandomObject();
-// Check type and cast to String
 if (o instanceof String s) {
-    // do something with String s
-// Check type and cast to Number
+    // do something with String s...
 } else if (o instanceof Number n) {
-    // do something with Number n
+    // do something with Number n...
 }
 ```
 
@@ -114,31 +137,12 @@ public final boolean equals(Object o) {
 ```
 
 ---
-# Sealed Classes
-```java
-class Shape { } // No limits to extension
-```
-```java
-final class Shape { } // Nothing can extend
-```
-- A sealed class can only be extended by classes **permitted** to do so
-```java
-sealed class Shape {
-    permits Circle, Rectangle, Triangle {
-} 
-class Circle extends Shape {}
-class Rectangle extends Shape {}
-class Triangle extends Shape {}
-```
-<!-- allows you to write an exhaustive switch statement -->
-
----
 # Switch Expressions
 
 ---
 Before...
 ```java
-int numLetters; // eww
+int numLetters; // gross
 switch (day) {
     case MONDAY:
     case FRIDAY:
@@ -227,30 +231,47 @@ record Range(int start, int end) {
 ```
 
 ---
-# Garbage Collectors
+# Sealed Classes
+```java
+class Shape { } // No limits to extension
+```
+```java
+final class Shape { } // Nothing can extend
+```
+- A sealed class can only be extended by classes **permitted** to do so
+```java
+sealed class Shape {
+    permits Circle, Rectangle, Triangle {
+} 
+class Circle extends Shape {}
+class Rectangle extends Shape {}
+class Triangle extends Shape {}
+```
 
 ---
-# Tradeoffs
-- Throughput: how much time is spent doing actual application work vs gc work?
-- Latency: how responsive is it? How does the gc affect any single app operation?
-- Footprint: what additional resources does the gc require?
+# Data Oriented Programming
 
 ---
-# Java Collectors
-- Serial: optimized for footprint, simple, single threaded
-- Parallel: optimzed for throughput
-- G1 (Garbage First): balance of latency and throughput
-- ZGC (Z Garbage collector): optimzed for latency
-    - Low latency
+- Combine it all together and you get Data Oriented Programming
+```java
+sealed interface AsyncReturn<V> {
+    record Success<V>(V result) implements AsyncReturn<V> { }
+    record Failure<V>(Throwable cause) implements AsyncReturn<V> { }
+    record Timeout<V>() implements AsyncReturn<V> { }
+    record Interrupted<V>() implements AsyncReturn<V> { }
+}
+```
 
----
-# Benchmarks
-|  |  |
-|------------|---------|
-| ![w:540](https://kstefanj.github.io/assets/posts/gc-8-17/throughput.png)| ![w:540](https://kstefanj.github.io/assets/posts/gc-8-17/latency.png)|
-
-
-- [Stefan Johansson - GC progress from JDK 8 to JDK 17](https://kstefanj.github.io/2021/11/24/gc-progress-8-17.html)
+```java
+AsyncResult<V> r = future.get();
+switch (r) {
+    case Success<V>(var result): ...
+    case Failure<V>(Throwable cause): ...
+    case Timeout<V>(): ...
+    case Interrupted<V>(): ...
+}
+```
+- [Brian Goetz - Data Oriented Programming in Java](https://www.infoq.com/articles/data-oriented-programming-java)
 
 ---
 # Fun Stuff
@@ -316,7 +337,7 @@ int const = 1;      // No, another reserved java keyword
 
 ---
 # Comparison Method Violates its General Contract!
-- Why? Your comparator has a bug. Sort call migth throw this exception if it notices the failure
+- Why? Your comparator has a bug. Sort call might throw this exception if it notices the failure
 - Comparator rules
     - must impose a total ordering of values (ordering relation valid for all pairs)
 - Error 1: int overflow with subtraction
@@ -328,3 +349,10 @@ int const = 1;      // No, another reserved java keyword
 - don't write your own comparator, combine things together
 - https://www.youtube.com/watch?v=Enwbh6wpnYs
 
+---
+# Conclusion
+Java 17...
+- Makes it easier to debug programs with more precise null pointer exceptions
+- Improves overall performance with it's enhanced garbage collectors
+- Makes writing java more convenient with text blocks, pattern matching, switch expressions, and records
+- Sealed classes
