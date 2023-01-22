@@ -338,17 +338,25 @@ int const = 1;      // No, another reserved java keyword
 
 ---
 # Comparison Method Violates its General Contract!
-- Why? Your comparator has a bug. Sort call might throw this exception if it notices the failure
-- Comparator rules
-    - must impose a total ordering of values (ordering relation valid for all pairs)
 - Error 1: int overflow with subtraction
 - Error 2: auto-unboxing (with equals), avoid equals and not equals in value comparison
-- Just use Integer::compare
-- Even if you do it correctly, it won't work with floating point numbers due to NaN (not a number)
-- null first should not be wrapped around the comparator
-    - have to put nulls first inside
-- don't write your own comparator, combine things together
-- https://www.youtube.com/watch?v=Enwbh6wpnYs
+```java
+List<Integer> ints = ...
+// new Random(209).ints(32L).boxed().collect(toCollection(ArrayList::new));
+// substracting a negative adds, causing integer overflow (negative number)
+Comparator<Integer> comparator = (a,b) -> a - b;
+ints.sort(comparator);
+// no values are equal (auto-unboxing for equality operator)
+Comparator<Integer> comparator = (a,b) -> a < b
+    ? -1
+    : a == b ? 0 : 1;
+ints.sort(comparator);
+int.sort(Integer::compare);
+);
+```
+IllegalArgumentException: Comparison method violates its general contract!
+- Why? Your comparator has a bug. Sort call might throw this exception if it notices the failure
+- [Stuart Marks - Comparison Method Violates its General Contract!](https://www.youtube.com/watch?v=Enwbh6wpnYs&t=3s)
 
 ---
 # Conclusion
