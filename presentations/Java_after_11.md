@@ -251,15 +251,15 @@ class Triangle extends Shape {}
 
 ---
 # Data Oriented Programming
+Pattern Matching + Switch Expressions + Records + Sealed Classes
 
 ---
-- Combine it all together and you get Data Oriented Programming
 ```java
-sealed interface AsyncReturn<V> {
-    record Success<V>(V result) implements AsyncReturn<V> { }
-    record Failure<V>(Throwable cause) implements AsyncReturn<V> { }
-    record Timeout<V>() implements AsyncReturn<V> { }
-    record Interrupted<V>() implements AsyncReturn<V> { }
+sealed interface AsyncResult<V> {
+    record Success<V>(V result) implements AsyncResult<V> { }
+    record Failure<V>(Throwable cause) implements AsyncResult<V> { }
+    record Timeout<V>() implements AsyncResult<V> { }
+    record Interrupted<V>() implements AsyncResult<V> { }
 }
 ```
 
@@ -359,10 +359,18 @@ IllegalArgumentException: Comparison method violates its general contract!
 - [Stuart Marks - Comparison Method Violates its General Contract!](https://www.youtube.com/watch?v=Enwbh6wpnYs&t=3s)
 
 ---
+<style scoped>
+ul {
+  font-size: 35px;
+}
+</style>
 # Conclusion
-- Java 17...
-    - Improves debugging with more precise null pointer exceptions
-    - Improves overall performance with it's enhanced garbage collectors
-    - Makes writing java more convenient with text blocks, Stream::toList, pattern matching, switch expressions, and records
-    - Gives you more control over inheritance with Sealed classes
-    - Opens the door to a new style of programming: Data Oriented Programming that can coexist with Object Oriented Programming
+- Java 17 improves...
+    - System Performance
+        - Enhanced garbage collectors
+    - Developer Velocity
+        - Better null pointer exceptions
+        - Text blocks, Stream::toList, pattern matching, switch expressions, and records
+    - Developer Control
+        - Sealed classes
+        - Data Oriented Programming
