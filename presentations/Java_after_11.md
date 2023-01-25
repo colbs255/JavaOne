@@ -10,7 +10,6 @@ style: |
     }
 ---
 # <!--fit--> Java after 11
-Colby "Colbs" Chance
 
 ---
 # What's new?
@@ -338,25 +337,41 @@ int const = 1;      // No, another reserved java keyword
 
 ---
 # Comparison Method Violates its General Contract!
-- Error 1: int overflow with subtraction
-- Error 2: auto-unboxing (with equals), avoid equals and not equals in value comparison
+- Based on [talk by Stuart Marks](https://www.youtube.com/watch?v=Enwbh6wpnYs&t=3s)
+
+---
+# Does this work?
 ```java
-List<Integer> ints = ...
-// new Random(209).ints(32L).boxed().collect(toCollection(ArrayList::new));
-// substracting a negative adds, causing integer overflow (negative number)
+List<Integer> numbers = ...
 Comparator<Integer> comparator = (a,b) -> a - b;
-ints.sort(comparator);
-// no values are equal (auto-unboxing for equality operator)
+numbers.sort(comparator);
+```
+
+---
+# Does this work??
+```java
+List<Integer> numbers = ...
 Comparator<Integer> comparator = (a,b) -> a < b
     ? -1
     : a == b ? 0 : 1;
-ints.sort(comparator);
-int.sort(Integer::compare);
-);
+numbers.sort(comparator);
 ```
-IllegalArgumentException: Comparison method violates its general contract!
-- Why? Your comparator has a bug. Sort call might throw this exception if it notices the failure
-- [Stuart Marks - Comparison Method Violates its General Contract!](https://www.youtube.com/watch?v=Enwbh6wpnYs&t=3s)
+
+---
+# Does this work???
+```java
+List<Double> numbers = ...
+Comparator<Integer> comparator = (a,b) -> a < b
+    ? -1
+    : a > b ? 1 : 0
+```
+
+---
+# ...does this work????
+```java
+List<Integer> numbers = ...
+numbers.sort(Integer::compare);
+```
 
 ---
 <style scoped>
@@ -370,7 +385,8 @@ ul {
         - Enhanced garbage collectors
     - Developer Velocity
         - Better null pointer exceptions
-        - Text blocks, Stream::toList, pattern matching, switch expressions, and records
+        - Text blocks, Stream::toList
+        - Pattern matching, switch expressions, and records
     - Developer Control
         - Sealed classes
         - Data Oriented Programming
