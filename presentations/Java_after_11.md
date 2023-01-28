@@ -349,6 +349,14 @@ numbers.sort(comparator);
 ```
 
 ---
+# No!
+- Example
+    - a: large positive
+    - b: large negative
+- (a - b) overflows, creating a negative number
+- Since (a - b) is negative, comparator thinks a < b
+
+---
 # Does this work??
 ```java
 List<Integer> numbers = ...
@@ -359,12 +367,31 @@ numbers.sort(comparator);
 ```
 
 ---
+# No!
+- Auto-unboxing is the problem!
+- the a == b is performing reference equality
+- so a == b is always false
+    - Unless a and b are the same object
+
+---
 # Does this work???
 ```java
 List<Double> numbers = ...
-Comparator<Integer> comparator = (a,b) -> a < b
+Comparator<Double> comparator = (a,b) -> a < b
     ? -1
     : a > b ? 1 : 0
+```
+
+---
+# No!
+- Example:
+    - a: NaN
+    - b: any number
+- ANY comparison with NaN evaluates to false
+```java
+NaN < 1000 -> false
+NaN > 1000 -> false
+NaN == 1000 -> false
 ```
 
 ---
@@ -373,6 +400,10 @@ Comparator<Integer> comparator = (a,b) -> a < b
 List<Integer> numbers = ...
 numbers.sort(Integer::compare);
 ```
+
+---
+# Yes!
+- Lesson: Just use `Integer::compare`
 
 ---
 <style scoped>
