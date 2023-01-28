@@ -44,7 +44,7 @@ Exception in thread "main" java.lang.NullPointerException: Cannot read field "c"
 - Throughput
     - How much time is spent doing actual application work vs GC work?
 - Latency
-    - How does gc affect individual app operations? (pauses)
+    - How does gc affect individual app operations?
 - Footprint
     - What additional resources does GC require?
 
@@ -327,7 +327,7 @@ int goto = 1;       // No, java keyword that is not actually used (reserved)
 
 int static = 1;     // No, java keyword
 
-int var = 1;        // Yes!
+int var = 1;        // Yes! Reserved type name, not a keyword!
 
 int void = 1;       // No, java keyword
 
