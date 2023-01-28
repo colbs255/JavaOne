@@ -44,17 +44,18 @@ Exception in thread "main" java.lang.NullPointerException: Cannot read field "c"
 - Throughput
     - How much time is spent doing actual application work vs GC work?
 - Latency
-    - How responsive is it? How does GC affect any single app operation?
+    - How does gc affect individual app operations? (pauses)
 - Footprint
     - What additional resources does GC require?
 
 ---
 # Java GCs
-- Serial: optimized for footprint, simple, single threaded
-- Parallel: optimized for throughput
-- G1 (Garbage First): balance of latency and throughput
-- ZGC (Z Garbage collector): optimized for latency
-    - Low latency
+- Serial: simple, single threaded
+- Parallel: throughput
+- G1 (default): balance of throughput and latency
+- Shenandoah: latency
+- ZGC: latency
+- Epsilon: no-op collector
 
 ---
 # GC Benchmarks
@@ -69,6 +70,7 @@ Exception in thread "main" java.lang.NullPointerException: Cannot read field "c"
 # Text Blocks
 - Multi-line string **literal**
 - Doesn't need escape sequences (generally)
+- Preserves indentation
 ```java
 String grossJson = "{\n\"id\": 1,\n\"qty\": 5,\n\"price\": 100.00}";
 String prettyJson = """
@@ -81,7 +83,6 @@ String prettyJson = """
 ```
 
 ---
-- Indentation determined by farthest left character & closing quotes
 - Single line blocks are supported with `\`:
 ```java
 String text = """
@@ -328,11 +329,11 @@ int static = 1;     // No, java keyword
 
 int var = 1;        // Yes!
 
-var var = "var";    // Yes!
-
 int void = 1;       // No, java keyword
 
 int const = 1;      // No, another reserved java keyword
+
+var var = "var";    // Yes!
 ```
 
 ---
@@ -387,6 +388,6 @@ ul {
         - Better null pointer exceptions
         - Text blocks, Stream::toList
         - Pattern matching, switch expressions, and records
-    - Developer Control
+    - Developer Flexibility
         - Sealed classes
         - Data Oriented Programming
