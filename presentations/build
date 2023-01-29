@@ -1,4 +1,4 @@
 #!/bin/bash
 
 mkdir -p pdfs
-marp Java_after_11.md pdfs/Java_after_11.pdf --pdf
+marp Java_after_11.md -o pdfs/Java_after_11.pdf --pdf

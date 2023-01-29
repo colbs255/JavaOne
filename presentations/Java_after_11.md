@@ -68,11 +68,16 @@ Exception in thread "main" java.lang.NullPointerException: Cannot read field "c"
 
 ---
 # Text Blocks
-- Multi-line string **literal**
-- Doesn't need escape sequences (generally)
-- Preserves indentation
+
+---
+Before...
 ```java
 String grossJson = "{\n\"id\": 1,\n\"qty\": 5,\n\"price\": 100.00}";
+```
+
+---
+After...
+```java
 String prettyJson = """
             {
                 "id": 1,
@@ -80,12 +85,8 @@ String prettyJson = """
                 "price": 100
             }
             """;
-```
 
----
-- Single line blocks are supported with `\`:
-```java
-String text = """
+String singleLine = """
               Lorem ipsum dolor sit amet, consectetur adipiscing \
               elit, sed do eiusmod tempor incididunt ut labore \
               et dolore magna aliqua.
@@ -213,12 +214,12 @@ System.out.println(range.end);
 - Transparent
 - Can't extend any class (implicitly extends record)
 - Can't be extended
-- But can implement interfaces
+- Can implement interfaces
 
 ---
 # Record Constructors
 - Automatically given `canonical constructors`
-- You can make your own, but **all constructors must ultimately call the canonical constructor**
+- **All** constructors must ultimately call the canonical constructor
 ```java
 record Range(int start, int end) {
     // Canonical constructor that uses the compact syntax
@@ -244,16 +245,20 @@ final class Shape { } // Nothing can extend
 sealed class Shape {
     permits Circle, Rectangle, Triangle {
 } 
-class Circle extends Shape {}
-class Rectangle extends Shape {}
-class Triangle extends Shape {}
+class Circle extends Shape { }
+class Rectangle extends Shape { }
+class Triangle extends Shape { }
 ```
 
 ---
-# Data Oriented Programming
-Pattern Matching + Switch Expressions + Records + Sealed Classes
+# What happens when we combine these?
+- Pattern Matching
+- Switch Expressions
+- Records
+- Sealed Classes
 
 ---
+# Data Oriented Programming
 ```java
 sealed interface AsyncResult<V> {
     record Success<V>(V result) implements AsyncResult<V> { }
@@ -272,7 +277,6 @@ switch (r) {
     case Interrupted<V>(): ...
 }
 ```
-- [Brian Goetz - Data Oriented Programming in Java](https://www.infoq.com/articles/data-oriented-programming-java)
 
 ---
 # Fun Stuff
@@ -421,4 +425,4 @@ ul {
         - Pattern matching, switch expressions, and records
     - Developer Flexibility
         - Sealed classes
-        - Data Oriented Programming
+        - Data Oriented Programming ([Brian Goetz Article](https://www.infoq.com/articles/data-oriented-programming-java))
