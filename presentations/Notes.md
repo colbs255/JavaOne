@@ -1,61 +1,40 @@
----
-marp: true
-title: Java after 11
-theme: uncover
-# Dark mode
-# class: invert
-style: |
-    h1,h2 {
-        color: #00A2FF
-    }
----
-# <!--fit--> Java after 11
+So this talk is going to focus on the new features after Java 11
 
----
 # What's new?
-- Better NullPointerExceptions
-- Garbage Collection Improvements
-- Text Blocks
-- Pattern matching for instanceof
-- Switch Expressions
-- Records
-- Sealed Classes
-- And more!
+More specifically, things like this:
 
 ---
 # Better NullPointerExceptions
-```java
-a.b.c.i = 99; // Throws a NullPointerException
-```
-Before...
-```text
-Exception in thread "main" java.lang.NullPointerException at Prog.main(Prog.java:5)
-```
-After...
-```text
-Exception in thread "main" java.lang.NullPointerException: Cannot read field "c" because "a.b" is null ...
-```
+- Let's start with NPEs
+- Pretend we get an exception like this in prod
+- In java 11, we would get an exception like this
+- we don't know where it occurs
+- now we do, we see
+- this happens a lot in prod
 
 ---
 # Garbage Collection (GC)
+Let't talk about GC improvements
 
 ---
 # GC Trade-offs
-- Throughput
-    - How much time is spent doing actual application work vs GC work?
-- Latency
-    - How does GC affect individual app operations?
-- Footprint
-    - How much extra memory is needed for the GC?
+- but before I do that, I want to set the stage a bit
+- garbage collectors are all about tradeoffs
+- Think about XCLR
+- Think about the UI service or video games
 
 ---
 # Java GCs
-- Serial: simple, single threaded
-- Parallel: throughput
-- G1 (default): balance of throughput and latency
-- Shenandoah: latency
-- ZGC: latency
-- Epsilon: no-op collector
+- Serial: let's app run like normal then pauses and collects
+- Parallel: like serial but uses multiple threads for collecting
+- These are older collectors
+- Now we have new ones:
+    - G1 (default): what TMS uses
+    - Shenandoah: latency
+    - ZGC: latency
+    - why 2 latency collectors? Well, Oracle owns ZGC redhat owns Shenandoah
+    - Epsilon: lastly, we have my favorite collector. Pretty revolutionary, it frees memory, and then does nothing. Effectivly turns off garbage collection
+- Why did I just list all this out? To show you we have options - we can tune things, and they affect more than just the memory your app uses
 
 ---
 # GC Benchmarks
@@ -68,6 +47,7 @@ Exception in thread "main" java.lang.NullPointerException: Cannot read field "c"
 
 ---
 # Text Blocks
+- Now we get into actual java language features like text blocks
 
 ---
 Before...
@@ -234,7 +214,7 @@ class Shape { } // No limits to extension
 ```java
 final class Shape { } // Nothing can extend
 ```
-- Provide more granular control over subclasses
+- A sealed class can only be extended by classes **permitted** to do so
 ```java
 sealed class Shape {
     permits Circle, Rectangle, Triangle {
