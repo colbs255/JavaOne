@@ -213,7 +213,7 @@ System.out.println(range.end);
 ---
 # Record Constructors
 - Automatically given `canonical constructors`
-- **All** constructors must ultimately call the canonical constructor
+    - **All** constructors must ultimately call it
 ```java
 record Range(int start, int end) {
     // Canonical constructor that uses the compact syntax
@@ -234,7 +234,7 @@ class Shape { } // No limits to extension
 ```java
 final class Shape { } // Nothing can extend
 ```
-- Provide more granular control over subclasses
+- Enables more fine-grained inheritance control
 ```java
 sealed class Shape {
     permits Circle, Rectangle, Triangle {
@@ -367,8 +367,8 @@ numbers.sort(comparator);
 ---
 # No!
 - Auto-unboxing is the problem!
-- the a == b is performing reference equality
-- so a == b is always false
+- The `a == b` is performing reference equality
+- So `a == b` is usually false
     - Unless a and b are the same object
 
 ---
@@ -383,9 +383,9 @@ Comparator<Double> comparator = (a,b) -> a < b
 ---
 # No!
 - Example:
-    - a: NaN
+    - a: `NaN`
     - b: any number
-- ANY comparison with NaN evaluates to false
+- **Any** comparison with `NaN` evaluates to false
 ```java
 NaN < 1000 -> false
 NaN > 1000 -> false
@@ -415,7 +415,7 @@ ul {
         - Enhanced garbage collectors
     - Developer Velocity
         - Better null pointer exceptions
-        - Text blocks, Stream::toList
+        - Text blocks, `Stream::toList`
         - Pattern matching, switch expressions, and records
     - Developer Flexibility
         - Sealed classes
